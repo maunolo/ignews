@@ -1,0 +1,10 @@
+{
+  "folders": [
+    "../src/"
+  ],
+  "settings": {
+    "typescript.validate.enable": true,
+    "javascript.validate.enable": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
