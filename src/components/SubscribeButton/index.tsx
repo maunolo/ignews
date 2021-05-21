@@ -36,7 +36,7 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
       alert(err.message)
     }
   }
-  
+
   return (
     <button
       type="button"
