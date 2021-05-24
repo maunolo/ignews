@@ -1,12 +1,12 @@
-import { GetStaticPaths, GetStaticProps } from "next"
-import { useSession } from "next-auth/client"
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { RichText } from "prismic-dom"
-import React, { useEffect } from "react"
-import { getPrismicClient } from "../../../services/prismic"
-import { CustomSession } from "../../../types"
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { useSession } from 'next-auth/client'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { RichText } from 'prismic-dom'
+import React, { useEffect } from 'react'
+import { getPrismicClient } from '../../../services/prismic'
+import { CustomSession } from '../../../types'
 
 import styles from '../post.module.scss'
 
@@ -46,9 +46,8 @@ export default function PostPreview({ post }: PostPreviewProps) {
           <div className={styles.continueReading}>
             Wanna continue reading?
             <Link href="/">
-              <a>Subscribe now</a>
+              <a>Subscribe now 😊</a>
             </Link>
-            😊
           </div>
         </article>
       </main>
@@ -74,17 +73,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     slug,
     title: RichText.asText(response.data.title),
     content: RichText.asHtml(response.data.content.splice(0, 3)),
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    })
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
+      'pt-BR',
+      {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      }
+    )
   }
 
   return {
     props: {
       post
     },
-    revalidate: 60 * 30, // 30 minutes
+    revalidate: 60 * 30 // 30 minutes
   }
 }
