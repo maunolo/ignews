@@ -1,16 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 import { Readable } from 'stream'
-import Stripe from "stripe"
-import { stripe } from "../../services/stripe"
-import { saveSubscription } from "./_lib/manageSubscription"
+import Stripe from 'stripe'
+import { stripe } from '../../services/stripe'
+import { saveSubscription } from './_lib/manageSubscription'
 
 async function buffer(readable: Readable) {
   const chunks = []
 
   for await (const chunk of readable) {
-    chunks.push(
-      typeof chunk === "string" ? Buffer.from(chunk) : chunk
-    )
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
   }
 
   return Buffer.concat(chunks)
@@ -36,8 +34,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let event: Stripe.Event
 
     try {
-      event = stripe.webhooks.constructEvent(buf, secret, process.env.STRIPE_WEBHOOK_SECRET)
-    } catch(err) {
+      event = stripe.webhooks.constructEvent(
+        buf,
+        secret,
+        process.env.STRIPE_WEBHOOK_SECRET
+      )
+    } catch (err) {
       return res.status(400).send(`Webhook error: ${err.message}`)
     }
 
@@ -53,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             await saveSubscription(
               subscription.id,
               subscription.customer.toString(),
-              false,
+              false
             )
 
             break
@@ -70,8 +72,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           default:
             throw new Error('Unhandled event')
         }
-      } catch(err) {
-        return res.json({error: 'Webhook handler failed.'})
+      } catch (err) {
+        return res.json({ error: 'Webhook handler failed.' })
       }
     }
 
